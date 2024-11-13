@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>火狐自定义配置 | NetworkException</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/tree_small.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>NetworkException</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>火狐自定义配置</h1>
+    </header>
+
+    <section>
+      <p>地址栏打开about:config</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">xpinstall.signatures.required ＝ false     //关闭扩展签名验证</span><br><span class="line">loop.enabled = false //disable Firefox Hello</span><br><span class="line">browser.pocket.enabled = false //disable Pocket plugin</span><br><span class="line">reader.parse-on-load.enabled = false //disable Reader View</span><br><span class="line">media.peerconnection.enabled = false //disable WebRTC</span><br><span class="line">dom.webnotifications.enabled = false //网站通知</span><br><span class="line">browser.tabs.loadBookmarksInTabs=true //新标签页打开</span><br><span class="line">toolkit.legacyUserProfileCustomizations.stylesheets=true //使用自定义样式</span><br></pre></td></tr></table></figure>
+<p>地址栏打开about:support，打开配置文件夹<br>新建chrome文件夹，再新建userChrome.css。这里参考了一堆网上的内容……</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#titlebar,</span><br><span class="line">#tabbrowser-tabs &#123;</span><br><span class="line">  --tab-min-height: 30px !important;</span><br><span class="line">&#125;</span><br><span class="line">.titlebar-spacer[type=&quot;pre-tabs&quot;] &#123;</span><br><span class="line">  width: 5px !important; /* Original: 40px */</span><br><span class="line">&#125;</span><br><span class="line">.titlebar-spacer[type=&quot;post-tabs&quot;] &#123;</span><br><span class="line">  width: 25px !important; /* Original: 40px */</span><br><span class="line">&#125;</span><br><span class="line">#PersonalToolbar,</span><br><span class="line">#PersonalToolbar menuitem,</span><br><span class="line">#PersonalToolbar menu &#123;</span><br><span class="line">  font-size: 8.5pt !important; /* 9pt为默认大小 */</span><br><span class="line">&#125;</span><br><span class="line">/* Firefox 89 版本的书签行间距过大 可自行设置间距 */</span><br><span class="line">:root &#123;</span><br><span class="line">  --menu-padding: 0.01em;</span><br><span class="line">&#125;</span><br><span class="line">:root[uidensity=&quot;compact&quot;] &#123;</span><br><span class="line">  --menu-padding: 0.01em;</span><br><span class="line">&#125;</span><br><span class="line">:root[uidensity=&quot;touch&quot;] &#123;</span><br><span class="line">  --menu-padding: 0.01em;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* Bookmark and context menu spacing */</span><br><span class="line">menupopup &gt; menuitem, menupopup &gt; menu &#123;padding-block: 0px !important;&#125;</span><br><span class="line"></span><br><span class="line">/* Options menu spacing */</span><br><span class="line">:root &#123;--arrowpanel-menuitem-padding: 0px 0px !important;&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2024-03-21T10:17:50.000Z" itemprop="datePublished">
+              2024-03-21
+            </time>
+          </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2024 - NetworkException </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>
