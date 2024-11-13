@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>windows系统添加右键Adb安装和Adb推Sdcard | NetworkException</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/tree_small.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>NetworkException</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>windows系统添加右键Adb安装和Adb推Sdcard</h1>
+    </header>
+
+    <section>
+      <p>先把adb加入环境变量，然后将以下内容另存为reg文件后双击导入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk]</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk\shell]</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk\shell\AdbInstall]</span><br><span class="line">@=&quot;AdbInstall&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk\shell\AdbInstall\command]</span><br><span class="line">@=&quot;cmd /c adb install -r \&quot;%1\&quot; &amp;&amp; pause&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\*]</span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell]</span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\AdbPushToSdcard]</span><br><span class="line">@=&quot;AdbPushToSdcard&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\AdbPushToSdcard\command]</span><br><span class="line">@=&quot;cmd /c adb push \&quot;%1\&quot; /sdcard &amp;&amp; pause&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\AdbPushToSdcard]</span><br><span class="line">@=&quot;AdbPushToSdcard&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\AdbPushToSdcard\command]</span><br><span class="line">@=&quot;cmd /c adb push \&quot;%1\&quot; /sdcard &amp;&amp; pause&quot;</span><br></pre></td></tr></table></figure>
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2022-03-31T04:26:34.000Z" itemprop="datePublished">
+              2022-03-31
+            </time>
+          </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2024 - NetworkException </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

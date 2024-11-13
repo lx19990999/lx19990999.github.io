@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>编译Android源码实现插入数据线后自动开启USB调试 | NetworkException</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/tree_small.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>NetworkException</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>编译Android源码实现插入数据线后自动开启USB调试</h1>
+    </header>
+
+    <section>
+      <p>frameworks/base/packages/SettingsLib/src/com/android/settingslib/development/AbstractEnableAdbPreferenceController.java</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean handlePreferenceTreeClick(Preference preference) &#123;</span><br><span class="line">    if (isUserAMonkey()) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (TextUtils.equals(KEY_ENABLE_ADB, preference.getKey())) &#123;</span><br><span class="line">        if (!isAdbEnabled()) &#123;</span><br><span class="line">            //showConfirmationDialog(preference);</span><br><span class="line">            writeAdbSetting(true);</span><br><span class="line">            updateState(mPreference);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            writeAdbSetting(false);</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>frameworks/base/packages/SystemUI/src/com/android/systemui/usb/UsbDebuggingActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onCreate(Bundle icicle) &#123;</span><br><span class="line">    Window window = getWindow();</span><br><span class="line">    window.addSystemFlags(</span><br><span class="line">            WindowManager.LayoutParams.SYSTEM_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);</span><br><span class="line">    window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);</span><br><span class="line"></span><br><span class="line">    super.onCreate(icicle);</span><br><span class="line"></span><br><span class="line">    if (SystemProperties.getInt(&quot;service.adb.tcp.port&quot;, 0) == 0) &#123;</span><br><span class="line">        mDisconnectedReceiver = new UsbDisconnectedReceiver(this);</span><br><span class="line">        IntentFilter filter = new IntentFilter(UsbManager.ACTION_USB_STATE);</span><br><span class="line">        mBroadcastDispatcher.registerReceiver(mDisconnectedReceiver, filter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent = getIntent();</span><br><span class="line">    String fingerprints = intent.getStringExtra(&quot;fingerprints&quot;);</span><br><span class="line">    mKey = intent.getStringExtra(&quot;key&quot;);</span><br><span class="line"></span><br><span class="line">    if (fingerprints == null || mKey == null) &#123;</span><br><span class="line">        finish();</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    notifyService(true, true);</span><br><span class="line">    finish();</span><br><span class="line"></span><br><span class="line">    // final AlertController.AlertParams ap = mAlertParams;</span><br><span class="line">    // ap.mTitle = getString(R.string.usb_debugging_title);</span><br><span class="line">    // ap.mMessage = getString(R.string.usb_debugging_message, fingerprints);</span><br><span class="line">    // ap.mPositiveButtonText = getString(R.string.usb_debugging_allow);</span><br><span class="line">    // ap.mNegativeButtonText = getString(android.R.string.cancel);</span><br><span class="line">    // ap.mPositiveButtonListener = this;</span><br><span class="line">    // ap.mNegativeButtonListener = this;</span><br><span class="line"></span><br><span class="line">    // // add &quot;always allow&quot; checkbox</span><br><span class="line">    // LayoutInflater inflater = LayoutInflater.from(ap.mContext);</span><br><span class="line">    // View checkbox = inflater.inflate(com.android.internal.R.layout.always_use_checkbox, null);</span><br><span class="line">    // mAlwaysAllow = (CheckBox)checkbox.findViewById(com.android.internal.R.id.alwaysUse);</span><br><span class="line">    // mAlwaysAllow.setText(getString(R.string.usb_debugging_always));</span><br><span class="line">    // ap.mView = checkbox;</span><br><span class="line">    // window.setCloseOnTouchOutside(false);</span><br><span class="line"></span><br><span class="line">    // setupAlert();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2023-01-31T16:11:34.000Z" itemprop="datePublished">
+              2023-02-01
+            </time>
+          </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2024 - NetworkException </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

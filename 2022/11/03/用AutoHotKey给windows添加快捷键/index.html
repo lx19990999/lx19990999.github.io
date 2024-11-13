@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>用AutoHotKey给windows添加快捷键 | NetworkException</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/tree_small.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>NetworkException</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>用AutoHotKey给windows添加快捷键</h1>
+    </header>
+
+    <section>
+      <p>将以下内容另存为keyremap.ahk，运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$!c::</span><br><span class="line">    IfWinActive,ahk_exe electerm.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;Shift Down&#125;&#123;c&#125;&#123;Ctrl Up&#125;&#123;Shift Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;c&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!x::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;x&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!v::</span><br><span class="line">    IfWinActive,ahk_exe electerm.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;Shift Down&#125;&#123;v&#125;&#123;Ctrl Up&#125;&#123;Shift Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;v&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!a::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;a&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!s::</span><br><span class="line">    IfWinActive,ahk_exe mpv.exe</span><br><span class="line">        SendInput !&#123;s&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;s&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!d::</span><br><span class="line">    IfWinActive,ahk_exe eclipse.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;d&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput !&#123;d&#125;</span><br><span class="line">Return</span><br><span class="line">$!w::</span><br><span class="line">    IfWinActive,ahk_exe electerm.exe </span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;Shift Down&#125;&#123;w&#125;&#123;Ctrl Up&#125;&#123;Shift Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe idea64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe pycharm64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe webstorm64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe datagrip64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe goland64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;w&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!z::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;z&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!r::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;r&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!t::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;t&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!q::</span><br><span class="line">    SendInput &#123;Alt Down&#125;&#123;F4&#125;&#123;Alt Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!f::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;f&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!/::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;/&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line"></span><br><span class="line">!space::Send ^&#123;space&#125;</span><br><span class="line">Return</span><br></pre></td></tr></table></figure>
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2022-11-03T01:00:32.000Z" itemprop="datePublished">
+              2022-11-03
+            </time>
+          </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2024 - NetworkException </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>
