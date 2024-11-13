@@ -54,6 +54,32 @@
     <header class="title">
       
         <h1>
+          <a href="/2024/10/30/termux%E9%85%8D%E7%BD%AEbashrc%E5%AE%9E%E7%8E%B0ssh%E3%80%81vnc%E8%87%AA%E5%90%AF%E5%8A%A8/">termux配置bashrc实现ssh、vnc自启动</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2024-10-30T02:31:27.000Z" itemprop="datePublished">
+    2024-10-30
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 检查并启动 ssh</span><br><span class="line">if ! pgrep -af &quot;sshd&quot; &gt; /dev/null; then</span><br><span class="line">sshd</span><br><span class="line">fi</span><br><span class="line"># 检查并启动 VNC 服务器</span><br><span class="line">if ! pgrep -af &quot;vnc&quot; &gt; /dev/null; then</span><br><span class="line">rm -rf /data/data/com.termux/files/usr/tmp/.X11-unix</span><br><span class="line">rm -rf /data/data/com.termux/files/usr/tmp/.X1-lock</span><br><span class="line">vncserver :1</span><br><span class="line">fi</span><br><span class="line"># 检查并启动 Python HTTP 服务器</span><br><span class="line">if ! pgrep -af &quot;python&quot; &gt; /dev/null; then</span><br><span class="line">python -m http.server2 &amp;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
           <a href="/2024/03/21/%E7%81%AB%E7%8B%90%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE/">火狐自定义配置</a>
         </h1>
       
@@ -307,33 +333,6 @@
       
         <p>先把adb加入环境变量，执行adb devices得到设备代码99717cb2<br>然后将以下内容另存为bat文件后双击运行</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:start</span><br><span class="line">adb -s 99717cb2 shell svc usb setFunctions rndis</span><br><span class="line">@ping -n 5 127.1 &gt;nul</span><br><span class="line">goto start</span><br></pre></td></tr></table></figure>
-      
-    </div>
-</article>
-
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2022/04/06/windows%E7%B3%BB%E7%BB%9F%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AE%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%90%AF%E5%8A%A8PythonHttpServer/">windows系统添加右键在当前目录启动PythonHttpServer</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2022-04-06T02:13:00.000Z" itemprop="datePublished">
-    2022-04-06
-  </time>
-  
-  
-</div>
-
-    </header>
-    <div>
-      
-        <p>先把python3加入环境变量，然后将以下内容另存为reg文件后双击导入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\PythonHTTPServer]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\PythonHTTPServer\command]</span><br><span class="line">@=&quot;cmd.exe /k cd %1 &amp; python -m http.server&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\PythonHTTPServer]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\PythonHTTPServer\command]</span><br><span class="line">@=&quot;cmd.exe /k cd %V &amp; python -m http.server&quot;</span><br></pre></td></tr></table></figure>
       
     </div>
 </article>
