@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>解决微信iOS浏览器返回时页面卡住问题 | NetworkException</title>
+  <title>uos1050e升级gcc | NetworkException</title>
   
   
   
@@ -49,13 +49,14 @@
             <div>
   <article class='ContentView'>
     <header class='PageTitle'>
-        <h1>解决微信iOS浏览器返回时页面卡住问题</h1>
+        <h1>uos1050e升级gcc</h1>
     </header>
 
     <section>
-      <p>参考文档：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceNavigation">https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceNavigation</a></p>
-<p>页面通过历史记录和前进后退访问时。type 值为 2。暴力刷新一下^_^</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">window.addEventListener(&#x27;pageshow&#x27;, (e) =&gt; &#123;</span><br><span class="line">    if (e.persisted || (window.performance &amp;&amp; window.performance.navigation.type == 2)) &#123;</span><br><span class="line">        location.reload();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+      <p>wget <a target="_blank" rel="noopener" href="https://ftp.gnu.org/gnu/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz">https://ftp.gnu.org/gnu/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz</a><br>tar -xf gcc-8.3.0.tar.xz<br>cd gcc-8.3.0<br>./contrib/download_prerequisites<br>mkdir build &amp;&amp; cd build<br>../configure –disable-multilib –enable-languages=c,c++<br>make -j$(nproc) &amp;&amp; sudo make install &gt; compile2.log 2&gt;&amp;1</p>
+<p>sudo cp ./libstdc++.so.6.0.25 /usr/local/lib64/<br>sudo ln -sf /usr/local/lib64/libstdc++.so.6.0.25 /usr/local/lib64/libstdc++.so.6<br>sudo ldconfig</p>
+<p>strings /usr/local/lib64/libstdc++.so.6 | grep GLIBCXX_3.4.25</p>
+
 
       
 
@@ -64,8 +65,8 @@
       <section class='ArticleMeta'>
           <div>
             发布于&nbsp;
-            <time datetime="2022-11-17T04:16:15.000Z" itemprop="datePublished">
-              2022-11-17
+            <time datetime="2025-08-19T08:36:20.000Z" itemprop="datePublished">
+              2025-08-19
             </time>
           </div>
           

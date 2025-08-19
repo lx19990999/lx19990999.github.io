@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>解决微信iOS浏览器返回时页面卡住问题 | NetworkException</title>
+  <title>使用docker在kylin desktop v10sp1 arm64环境中编译nginx | NetworkException</title>
   
   
   
@@ -49,13 +49,13 @@
             <div>
   <article class='ContentView'>
     <header class='PageTitle'>
-        <h1>解决微信iOS浏览器返回时页面卡住问题</h1>
+        <h1>使用docker在kylin desktop v10sp1 arm64环境中编译nginx</h1>
     </header>
 
     <section>
-      <p>参考文档：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceNavigation">https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceNavigation</a></p>
-<p>页面通过历史记录和前进后退访问时。type 值为 2。暴力刷新一下^_^</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">window.addEventListener(&#x27;pageshow&#x27;, (e) =&gt; &#123;</span><br><span class="line">    if (e.persisted || (window.performance &amp;&amp; window.performance.navigation.type == 2)) &#123;</span><br><span class="line">        location.reload();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+      <p>在linux.do论坛上看了个帖子，于是现学现卖用amd64的docker运行arm64镜像，整理如下：</p>
+<p>编辑 Docker 配置文件 /etc/docker/daemon.json,添加以下内容以启用多平台支持：<br>{<br>  “experimental”: true,<br>  “features”: { “buildkit”: true }<br>}<br>重启 Docker 服务：sudo systemctl restart docker<br>Docker Desktop 内置了 QEMU，但需手动注册多架构支持：<br>docker run –rm –privileged multiarch/qemu-user-static –reset -p yes<br>docker镜像仅供参考，请使用可信源：<br>本地目录/home/flutter/docker/kylin/data/映射到docker的/data目录，并调整cpu、内存限制，执行命令前连接互联网：<br>docker run -it –name kylin -p 80:80 –cpus=8 –memory=32g -v /home/flutter/docker/kylin/data/:/data/ –platform linux/arm64 cnxc/kylin:desktop-v10sp1 /bin/bash<br>docker run -it –name kylin -p 80:80 –cpus=8 –memory=32g -v /c/dockervolume/kylin/data/:/data/ –platform linux/arm64 cnxc/kylin:desktop-v10sp1 /bin/bash<br>下载nginx-1.29.1.tar.gz、nginx-module-vts-0.2.4.zip到data目录<br>cd /data<br>tar -xvf nginx-1.29.1.tar.gz<br>unzip nginx-module-vts-0.2.4.zip<br>检查更新并安装编译环境：<br>apt update<br>apt install build-essential automake autoconf libtool libpcre3 libpcre3-dev zlib1g-dev libssl-dev -y<br>编译nginx安装到/data/nginx目录：<br>cd /data/nginx-1.29.1<br>./configure –prefix=/data/nginx –with-http_ssl_module –with-http_v2_module –with-http_stub_status_module –with-stream –add-module=/data/nginx-module-vts-0.2.4<br>make &amp;&amp; make install<br>/data/nginx/sbin/nginx -V<br>打包nginx到生产环境测试：<br>tar -cvf nginx20250819.tar –exclude=’*.log’ /data/nginx</p>
+
 
       
 
@@ -64,8 +64,8 @@
       <section class='ArticleMeta'>
           <div>
             发布于&nbsp;
-            <time datetime="2022-11-17T04:16:15.000Z" itemprop="datePublished">
-              2022-11-17
+            <time datetime="2025-08-19T08:39:18.000Z" itemprop="datePublished">
+              2025-08-19
             </time>
           </div>
           
