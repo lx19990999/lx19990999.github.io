@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>NetworkException</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/tree_small.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>NetworkException</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <ul class="Index">
+  
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2025/08/19/%E4%BD%BF%E7%94%A8docker%E5%9C%A8kylin-desktop-v10sp1-arm64%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%BC%96%E8%AF%91nginx/">使用docker在kylin desktop v10sp1 arm64环境中编译nginx</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2025-08-19T08:39:18.000Z" itemprop="datePublished">
+    2025-08-19
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>在linux.do论坛上看了个帖子，于是现学现卖用amd64的docker运行arm64镜像，整理如下：</p>
+<p>编辑 Docker 配置文件 /etc/docker/daemon.json,添加以下内容以启用多平台支持：<br>{<br>  “experimental”: true,<br>  “features”: { “buildkit”: true }<br>}<br>重启 Docker 服务：sudo systemctl restart docker<br>Docker Desktop 内置了 QEMU，但需手动注册多架构支持：<br>docker run –rm –privileged multiarch/qemu-user-static –reset -p yes<br>docker镜像仅供参考，请使用可信源：<br>本地目录/home/flutter/docker/kylin/data/映射到docker的/data目录，并调整cpu、内存限制，执行命令前连接互联网：<br>docker run -it –name kylin -p 80:80 –cpus=8 –memory=32g -v /home/flutter/docker/kylin/data/:/data/ –platform linux/arm64 cnxc/kylin:desktop-v10sp1 /bin/bash<br>docker run -it –name kylin -p 80:80 –cpus=8 –memory=32g -v /c/dockervolume/kylin/data/:/data/ –platform linux/arm64 cnxc/kylin:desktop-v10sp1 /bin/bash<br>下载nginx-1.29.1.tar.gz、nginx-module-vts-0.2.4.zip到data目录<br>cd /data<br>tar -xvf nginx-1.29.1.tar.gz<br>unzip nginx-module-vts-0.2.4.zip<br>检查更新并安装编译环境：<br>apt update<br>apt install build-essential automake autoconf libtool libpcre3 libpcre3-dev zlib1g-dev libssl-dev -y<br>编译nginx安装到/data/nginx目录：<br>cd /data/nginx-1.29.1<br>./configure –prefix=/data/nginx –with-http_ssl_module –with-http_v2_module –with-http_stub_status_module –with-stream –add-module=/data/nginx-module-vts-0.2.4<br>make &amp;&amp; make install<br>/data/nginx/sbin/nginx -V<br>打包nginx到生产环境测试：<br>tar -cvf nginx20250819.tar –exclude=’*.log’ /data/nginx</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2025/08/19/uos1050e%E5%8D%87%E7%BA%A7gcc/">uos1050e升级gcc</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2025-08-19T08:36:20.000Z" itemprop="datePublished">
+    2025-08-19
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>wget <a target="_blank" rel="noopener" href="https://ftp.gnu.org/gnu/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz">https://ftp.gnu.org/gnu/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz</a><br>tar -xf gcc-8.3.0.tar.xz<br>cd gcc-8.3.0<br>./contrib/download_prerequisites<br>mkdir build &amp;&amp; cd build<br>../configure –disable-multilib –enable-languages=c,c++<br>make -j$(nproc) &amp;&amp; sudo make install &gt; compile2.log 2&gt;&amp;1</p>
+<p>sudo cp ./libstdc++.so.6.0.25 /usr/local/lib64/<br>sudo ln -sf /usr/local/lib64/libstdc++.so.6.0.25 /usr/local/lib64/libstdc++.so.6<br>sudo ldconfig</p>
+<p>strings /usr/local/lib64/libstdc++.so.6 | grep GLIBCXX_3.4.25</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2024/10/30/termux%E9%85%8D%E7%BD%AEbashrc%E5%AE%9E%E7%8E%B0ssh%E3%80%81vnc%E8%87%AA%E5%90%AF%E5%8A%A8/">termux配置bashrc实现ssh、vnc自启动</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2024-10-30T02:31:27.000Z" itemprop="datePublished">
+    2024-10-30
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 检查并启动 ssh</span><br><span class="line">if ! pgrep -af &quot;sshd&quot; &gt; /dev/null; then</span><br><span class="line">sshd</span><br><span class="line">fi</span><br><span class="line"># 检查并启动 VNC 服务器</span><br><span class="line">if ! pgrep -af &quot;vnc&quot; &gt; /dev/null; then</span><br><span class="line">rm -rf /data/data/com.termux/files/usr/tmp/.X11-unix</span><br><span class="line">rm -rf /data/data/com.termux/files/usr/tmp/.X1-lock</span><br><span class="line">vncserver :1</span><br><span class="line">fi</span><br><span class="line"># 检查并启动 Python HTTP 服务器</span><br><span class="line">if ! pgrep -af &quot;python&quot; &gt; /dev/null; then</span><br><span class="line">python -m http.server2 &amp;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2024/03/21/%E7%81%AB%E7%8B%90%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE/">火狐自定义配置</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2024-03-21T10:17:50.000Z" itemprop="datePublished">
+    2024-03-21
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>地址栏打开about:config</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">xpinstall.signatures.required ＝ false     //关闭扩展签名验证</span><br><span class="line">loop.enabled = false //disable Firefox Hello</span><br><span class="line">browser.pocket.enabled = false //disable Pocket plugin</span><br><span class="line">reader.parse-on-load.enabled = false //disable Reader View</span><br><span class="line">media.peerconnection.enabled = false //disable WebRTC</span><br><span class="line">dom.webnotifications.enabled = false //网站通知</span><br><span class="line">browser.tabs.loadBookmarksInTabs=true //新标签页打开</span><br><span class="line">toolkit.legacyUserProfileCustomizations.stylesheets=true //使用自定义样式</span><br><span class="line">ui.key.menuAccessKeyFocuses=false //屏蔽alt</span><br></pre></td></tr></table></figure>
+<p>地址栏打开about:support，打开配置文件夹<br>新建chrome文件夹，再新建userChrome.css。这里参考了一堆网上的内容……</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#titlebar,</span><br><span class="line">#tabbrowser-tabs &#123;</span><br><span class="line">  --tab-min-height: 30px !important;</span><br><span class="line">&#125;</span><br><span class="line">.titlebar-spacer[type=&quot;pre-tabs&quot;] &#123;</span><br><span class="line">  width: 5px !important; /* Original: 40px */</span><br><span class="line">&#125;</span><br><span class="line">.titlebar-spacer[type=&quot;post-tabs&quot;] &#123;</span><br><span class="line">  width: 25px !important; /* Original: 40px */</span><br><span class="line">&#125;</span><br><span class="line">#PersonalToolbar,</span><br><span class="line">#PersonalToolbar menuitem,</span><br><span class="line">#PersonalToolbar menu &#123;</span><br><span class="line">  font-size: 8.5pt !important; /* 9pt为默认大小 */</span><br><span class="line">&#125;</span><br><span class="line">/* Firefox 89 版本的书签行间距过大 可自行设置间距 */</span><br><span class="line">:root &#123;</span><br><span class="line">  --menu-padding: 0.01em;</span><br><span class="line">&#125;</span><br><span class="line">:root[uidensity=&quot;compact&quot;] &#123;</span><br><span class="line">  --menu-padding: 0.01em;</span><br><span class="line">&#125;</span><br><span class="line">:root[uidensity=&quot;touch&quot;] &#123;</span><br><span class="line">  --menu-padding: 0.01em;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* Bookmark and context menu spacing */</span><br><span class="line">menupopup &gt; menuitem, menupopup &gt; menu &#123;padding-block: 0px !important;&#125;</span><br><span class="line"></span><br><span class="line">/* Options menu spacing */</span><br><span class="line">:root &#123;--arrowpanel-menuitem-padding: 0px 0px !important;&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2023/12/09/mpv%E9%85%8D%E7%BD%AE%E6%97%A0%E8%BE%B9%E6%A1%86-%E9%A1%B6%E9%83%A8%E8%BF%9B%E5%BA%A6%E6%9D%A1/">mpv配置无边框+顶部进度条</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2023-12-09T15:43:13.000Z" itemprop="datePublished">
+    2023-12-09
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>win配置默认路径%APPDATA%/mpv/<br>linux、mac配置默认路径~/.config/mpv/</p>
+<p>./mpv.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">screenshot-template=C:\\screenshot\\%f-%wH-%wM-%wS.%wT</span><br><span class="line">screenshot-format=jpg</span><br><span class="line">no-border</span><br><span class="line">autofit-larger=100%</span><br><span class="line">sub-auto=fuzzy</span><br><span class="line">vo=opengl-hq:interpolation:icc-profile-auto</span><br><span class="line">--osd-level=0</span><br><span class="line">cursor-autohide=1000</span><br><span class="line">save-position-on-quit</span><br></pre></td></tr></table></figure>
+
+<p>./lua-settings/osc.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">layout=topbar</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2023/03/04/vscode%E5%8F%8D%E5%A4%8D%E8%A6%81%E6%B1%82%E7%99%BB%E5%BD%95%EF%BC%8C%E5%88%A0%E9%99%A4%E9%87%8D%E5%A4%8D%E7%9A%84Windows%E5%87%AD%E6%8D%AE%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE/">vscode反复要求登录，删除重复的Windows凭据管理数据</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2023-03-04T13:20:18.000Z" itemprop="datePublished">
+    2023-03-04
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>参考链接：<a target="_blank" rel="noopener" href="https://github.com/microsoft/vscode/issues/174290">https://github.com/microsoft/vscode/issues/174290</a><br>cmd执行 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for /F &quot;tokens=1,2 delims= &quot; %G in (&#x27;cmdkey /list ^| findstr vscode&#x27;) do cmdkey /delete %H</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2023/02/01/%E7%BC%96%E8%AF%91Android%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE%E7%BA%BF%E5%90%8E%E8%87%AA%E5%8A%A8%E5%BC%80%E5%90%AFUSB%E8%B0%83%E8%AF%95/">编译Android源码实现插入数据线后自动开启USB调试</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2023-01-31T16:11:34.000Z" itemprop="datePublished">
+    2023-02-01
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>frameworks/base/packages/SettingsLib/src/com/android/settingslib/development/AbstractEnableAdbPreferenceController.java</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean handlePreferenceTreeClick(Preference preference) &#123;</span><br><span class="line">    if (isUserAMonkey()) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (TextUtils.equals(KEY_ENABLE_ADB, preference.getKey())) &#123;</span><br><span class="line">        if (!isAdbEnabled()) &#123;</span><br><span class="line">            //showConfirmationDialog(preference);</span><br><span class="line">            writeAdbSetting(true);</span><br><span class="line">            updateState(mPreference);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            writeAdbSetting(false);</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>frameworks/base/packages/SystemUI/src/com/android/systemui/usb/UsbDebuggingActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onCreate(Bundle icicle) &#123;</span><br><span class="line">    Window window = getWindow();</span><br><span class="line">    window.addSystemFlags(</span><br><span class="line">            WindowManager.LayoutParams.SYSTEM_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);</span><br><span class="line">    window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);</span><br><span class="line"></span><br><span class="line">    super.onCreate(icicle);</span><br><span class="line"></span><br><span class="line">    if (SystemProperties.getInt(&quot;service.adb.tcp.port&quot;, 0) == 0) &#123;</span><br><span class="line">        mDisconnectedReceiver = new UsbDisconnectedReceiver(this);</span><br><span class="line">        IntentFilter filter = new IntentFilter(UsbManager.ACTION_USB_STATE);</span><br><span class="line">        mBroadcastDispatcher.registerReceiver(mDisconnectedReceiver, filter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent = getIntent();</span><br><span class="line">    String fingerprints = intent.getStringExtra(&quot;fingerprints&quot;);</span><br><span class="line">    mKey = intent.getStringExtra(&quot;key&quot;);</span><br><span class="line"></span><br><span class="line">    if (fingerprints == null || mKey == null) &#123;</span><br><span class="line">        finish();</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    notifyService(true, true);</span><br><span class="line">    finish();</span><br><span class="line"></span><br><span class="line">    // final AlertController.AlertParams ap = mAlertParams;</span><br><span class="line">    // ap.mTitle = getString(R.string.usb_debugging_title);</span><br><span class="line">    // ap.mMessage = getString(R.string.usb_debugging_message, fingerprints);</span><br><span class="line">    // ap.mPositiveButtonText = getString(R.string.usb_debugging_allow);</span><br><span class="line">    // ap.mNegativeButtonText = getString(android.R.string.cancel);</span><br><span class="line">    // ap.mPositiveButtonListener = this;</span><br><span class="line">    // ap.mNegativeButtonListener = this;</span><br><span class="line"></span><br><span class="line">    // // add &quot;always allow&quot; checkbox</span><br><span class="line">    // LayoutInflater inflater = LayoutInflater.from(ap.mContext);</span><br><span class="line">    // View checkbox = inflater.inflate(com.android.internal.R.layout.always_use_checkbox, null);</span><br><span class="line">    // mAlwaysAllow = (CheckBox)checkbox.findViewById(com.android.internal.R.id.alwaysUse);</span><br><span class="line">    // mAlwaysAllow.setText(getString(R.string.usb_debugging_always));</span><br><span class="line">    // ap.mView = checkbox;</span><br><span class="line">    // window.setCloseOnTouchOutside(false);</span><br><span class="line"></span><br><span class="line">    // setupAlert();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/11/17/%E8%A7%A3%E5%86%B3%E5%BE%AE%E4%BF%A1iOS%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%94%E5%9B%9E%E6%97%B6%E9%A1%B5%E9%9D%A2%E5%8D%A1%E4%BD%8F%E9%97%AE%E9%A2%98/">解决微信iOS浏览器返回时页面卡住问题</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-11-17T04:16:15.000Z" itemprop="datePublished">
+    2022-11-17
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>参考文档：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceNavigation">https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceNavigation</a></p>
+<p>页面通过历史记录和前进后退访问时。type 值为 2。暴力刷新一下^_^</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">window.addEventListener(&#x27;pageshow&#x27;, (e) =&gt; &#123;</span><br><span class="line">    if (e.persisted || (window.performance &amp;&amp; window.performance.navigation.type == 2)) &#123;</span><br><span class="line">        location.reload();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/11/03/%E7%94%A8AutoHotKey%E7%BB%99windows%E6%B7%BB%E5%8A%A0%E5%BF%AB%E6%8D%B7%E9%94%AE/">用AutoHotKey给windows添加快捷键</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-11-03T01:00:32.000Z" itemprop="datePublished">
+    2022-11-03
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>将以下内容另存为keyremap.ahk，运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$!c::</span><br><span class="line">    IfWinActive,ahk_exe electerm.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;Shift Down&#125;&#123;c&#125;&#123;Ctrl Up&#125;&#123;Shift Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;c&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!x::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;x&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!v::</span><br><span class="line">    IfWinActive,ahk_exe electerm.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;Shift Down&#125;&#123;v&#125;&#123;Ctrl Up&#125;&#123;Shift Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;v&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!a::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;a&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!s::</span><br><span class="line">    IfWinActive,ahk_exe mpv.exe</span><br><span class="line">        SendInput !&#123;s&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;s&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!d::</span><br><span class="line">    IfWinActive,ahk_exe eclipse.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;d&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput !&#123;d&#125;</span><br><span class="line">Return</span><br><span class="line">$!w::</span><br><span class="line">    IfWinActive,ahk_exe electerm.exe </span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;Shift Down&#125;&#123;w&#125;&#123;Ctrl Up&#125;&#123;Shift Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe idea64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe pycharm64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe webstorm64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe datagrip64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    IfWinActive,ahk_exe goland64.exe</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;F4&#125;&#123;Ctrl Up&#125;</span><br><span class="line">    Else</span><br><span class="line">        SendInput &#123;Ctrl Down&#125;&#123;w&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!z::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;z&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!r::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;r&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!t::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;t&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!q::</span><br><span class="line">    SendInput &#123;Alt Down&#125;&#123;F4&#125;&#123;Alt Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!f::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;f&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line">$!/::</span><br><span class="line">    SendInput &#123;Ctrl Down&#125;&#123;/&#125;&#123;Ctrl Up&#125;</span><br><span class="line">Return</span><br><span class="line"></span><br><span class="line">!space::Send ^&#123;space&#125;</span><br><span class="line">Return</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/10/01/Android%E7%81%AB%E7%8B%90%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E5%A4%B1%E8%B4%A5%E6%97%B6%E8%87%AA%E5%8A%A8%E5%88%B7%E6%96%B0/">Android火狐页面加载失败时自动刷新</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-09-30T17:20:36.000Z" itemprop="datePublished">
+    2022-10-01
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>检出<a target="_blank" rel="noopener" href="https://github.com/mozilla-mobile/fenix">https://github.com/mozilla-mobile/fenix</a><br>打开app/src/main/assets/lowMediumErrorPages.js<br>在最后一行添加 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setTimeout (window.location.reload (), 1000);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+</ul>
+
+  <section id="nav-wrapper">
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">next »</a>
+    </nav>
+  </section>
+
+
+            <footer>
+    <div>© 2025 - NetworkException </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

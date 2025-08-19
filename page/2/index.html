@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>NetworkException</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/tree_small.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>NetworkException</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <ul class="Index">
+  
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/09/18/windows%E7%B3%BB%E7%BB%9F%E6%B2%99%E7%9B%92%E5%86%85%E8%BF%90%E8%A1%8C%E5%BE%AE%E4%BF%A1/">windows系统沙盒内运行微信</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-09-18T15:15:46.000Z" itemprop="datePublished">
+    2022-09-18
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>参考链接：<br>启用系统沙盒<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview">https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview</a><br>配置沙盒参数<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-configure-using-wsb-file">https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-configure-using-wsb-file</a></p>
+<p>1.创建本地目录，映射至沙盒内</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir C:\SandBoxFile\AppData\Local</span><br><span class="line">mkdir C:\SandBoxFile\AppData\LocalLow</span><br><span class="line">mkdir C:\SandBoxFile\AppData\Roaming</span><br><span class="line">mkdir C:\SandBoxFile\Desktop</span><br><span class="line">mkdir C:\SandBoxFile\Documents</span><br><span class="line">mkdir C:\SandBoxFile\Downloads</span><br><span class="line">mkdir &quot;C:\SandBoxFile\Program Files&quot;</span><br><span class="line">mkdir &quot;C:\SandBoxFile\Program Files (x86)&quot;</span><br><span class="line">mkdir C:\SandBoxFile\Programs</span><br></pre></td></tr></table></figure>
+
+<p>2.新建sandbox.wsb文件，保存以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Configuration&gt;</span><br><span class="line">    &lt;MappedFolders&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\Programs&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\SandBoxFile\Programs&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\AppData&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\Users\WDAGUtilityAccount\AppData&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\Documents&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\Users\WDAGUtilityAccount\Documents&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\Downloads&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\Users\WDAGUtilityAccount\Downloads&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\Desktop&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\Users\WDAGUtilityAccount\Desktop&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\Program Files&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\Program Files&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">        &lt;MappedFolder&gt;</span><br><span class="line">            &lt;HostFolder&gt;C:\SandBoxFile\Program Files (x86)&lt;/HostFolder&gt;</span><br><span class="line">            &lt;SandboxFolder&gt;C:\Program Files (x86)&lt;/SandboxFolder&gt;</span><br><span class="line">            &lt;ReadOnly&gt;false&lt;/ReadOnly&gt;</span><br><span class="line">        &lt;/MappedFolder&gt;</span><br><span class="line">    &lt;/MappedFolders&gt;</span><br><span class="line">    &lt;AudioInput&gt;Enable&lt;/AudioInput&gt;</span><br><span class="line">    &lt;VideoInput&gt;Enable&lt;/VideoInput&gt;</span><br><span class="line">    &lt;MemoryInMB&gt;16384&lt;/MemoryInMB&gt;</span><br><span class="line">    &lt;LogonCommand&gt;</span><br><span class="line">        &lt;Command&gt;powershell.exe -ExecutionPolicy Bypass -File C:\SandBoxFile\Programs\sandboxinit.ps1&lt;/Command&gt;</span><br><span class="line">    &lt;/LogonCommand&gt;</span><br><span class="line">&lt;/Configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3.新建C:\SandBoxFile\Programs\sandboxinit.ps1，保存以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#恢复经典右键菜单</span><br><span class="line">reg add &quot;HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32&quot; /f /ve</span><br><span class="line">#桌面小图标</span><br><span class="line">Set-ItemProperty -path HKCU:\Software\Microsoft\Windows\Shell\Bags\1\Desktop -name IconSize -value 32</span><br><span class="line">#关闭任务栏搜索</span><br><span class="line">Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search -Name SearchBoxTaskbarMode -Value 0 -Type DWord -Force</span><br><span class="line">#设置系统区域</span><br><span class="line">Set-Culture zh-CN</span><br><span class="line">Set-WinSystemLocale -SystemLocale zh-CN</span><br><span class="line">Set-WinUILanguageOverride -Language zh-CN</span><br><span class="line">Set-WinUserLanguageList zh-CN -Force</span><br><span class="line">Set-WinHomeLocation -GeoId 45</span><br><span class="line">Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False</span><br><span class="line">#显示扩展名</span><br><span class="line">Push-Location</span><br><span class="line">Set-Location HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced</span><br><span class="line">Set-ItemProperty . HideFileExt &quot;0&quot;</span><br><span class="line">Pop-Location</span><br><span class="line">Stop-Process -processName: Explorer -force</span><br><span class="line"># 启用任务栏图标不分组和不合并</span><br><span class="line">Set-ItemProperty -Path &quot;HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; -Name &quot;TaskbarGlomLevel&quot; -Value 2</span><br><span class="line">Set-ItemProperty -Path &quot;HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; -Name &quot;TaskbarGroupSize&quot; -Value 1</span><br><span class="line"># 刷新任务栏以应用更改</span><br><span class="line">Stop-Process -Name explorer</span><br></pre></td></tr></table></figure>
+
+<p>4.双击运行sandbox.wsb后安装微信</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/04/10/windows%E7%B3%BB%E7%BB%9F%E6%AD%BB%E5%BE%AA%E7%8E%AF%E6%89%93%E5%BC%80Android%E6%89%8B%E6%9C%BA%E5%BC%80%E5%90%AFUSB%E7%BD%91%E7%BB%9C%E5%85%B1%E4%BA%AB/">windows系统死循环打开Android手机开启USB网络共享</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-04-10T05:44:15.000Z" itemprop="datePublished">
+    2022-04-10
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>先把adb加入环境变量，执行adb devices得到设备代码99717cb2<br>然后将以下内容另存为bat文件后双击运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">:start</span><br><span class="line">adb -s 99717cb2 shell svc usb setFunctions rndis</span><br><span class="line">@ping -n 5 127.1 &gt;nul</span><br><span class="line">goto start</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/04/06/windows%E7%B3%BB%E7%BB%9F%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AE%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%90%AF%E5%8A%A8PythonHttpServer/">windows系统添加右键在当前目录启动PythonHttpServer</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-04-06T02:13:00.000Z" itemprop="datePublished">
+    2022-04-06
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>先把python3加入环境变量，然后将以下内容另存为reg文件后双击导入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\PythonHTTPServer]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\PythonHTTPServer\command]</span><br><span class="line">@=&quot;cmd.exe /k cd %1 &amp; python -m http.server&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\PythonHTTPServer]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\PythonHTTPServer\command]</span><br><span class="line">@=&quot;cmd.exe /k cd %V &amp; python -m http.server&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/03/31/windows%E7%B3%BB%E7%BB%9F%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AEAdb%E5%AE%89%E8%A3%85%E5%92%8CAdb%E6%8E%A8Sdcard/">windows系统添加右键Adb安装和Adb推Sdcard</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-03-31T04:26:34.000Z" itemprop="datePublished">
+    2022-03-31
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>先把adb加入环境变量，然后将以下内容另存为reg文件后双击导入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk]</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk\shell]</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk\shell\AdbInstall]</span><br><span class="line">@=&quot;AdbInstall&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\.apk\shell\AdbInstall\command]</span><br><span class="line">@=&quot;cmd /c adb install -r \&quot;%1\&quot; &amp;&amp; pause&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\*]</span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell]</span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\AdbPushToSdcard]</span><br><span class="line">@=&quot;AdbPushToSdcard&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\AdbPushToSdcard\command]</span><br><span class="line">@=&quot;cmd /c adb push \&quot;%1\&quot; /sdcard &amp;&amp; pause&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell]</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\AdbPushToSdcard]</span><br><span class="line">@=&quot;AdbPushToSdcard&quot;</span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\AdbPushToSdcard\command]</span><br><span class="line">@=&quot;cmd /c adb push \&quot;%1\&quot; /sdcard &amp;&amp; pause&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/03/18/Android%E7%B3%BB%E7%BB%9F%E5%8E%BB%E6%8E%89%E5%8F%B9%E5%8F%B7/">Android系统去掉叹号</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-03-18T14:21:42.000Z" itemprop="datePublished">
+    2022-03-18
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>删除（删除默认用 HTTPS）<br>adb shell settings delete global captive_portal_https_url<br>adb shell settings delete global captive_portal_http_url<br>分别修改两个地址<br>adb shell settings put global captive_portal_http_url <a target="_blank" rel="noopener" href="http://connect.rom.miui.com/generate_204">http://connect.rom.miui.com/generate_204</a><br>adb shell settings put global captive_portal_https_url <a target="_blank" rel="noopener" href="https://connect.rom.miui.com/generate_204">https://connect.rom.miui.com/generate_204</a></p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2022/03/18/hello-world/">Hello World</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2022-03-18T14:20:36.000Z" itemprop="datePublished">
+    2022-03-18
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+</ul>
+
+  <section id="nav-wrapper">
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">« prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
+  </section>
+
+
+            <footer>
+    <div>© 2025 - NetworkException </div>
+    <div>
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a target="_blank" rel="noopener" href="https://github.com/nameoverflow/hexo-theme-icalm">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>
